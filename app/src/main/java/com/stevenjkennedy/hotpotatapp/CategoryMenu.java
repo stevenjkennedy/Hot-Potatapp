@@ -22,7 +22,7 @@ public class CategoryMenu extends AppCompatActivity {
         setContentView(R.layout.activity_categoryselect);
     }
 
-    public static final HashMap<String, String[]> CATEGORIES = new HashMap<>();
+    public static final HashMap<String, Category> CATEGORIES = new HashMap<>();
 
     public void selectCategory(View view){
         Button b = (Button)view;
@@ -30,11 +30,11 @@ public class CategoryMenu extends AppCompatActivity {
 
         String[] selectedCategory;
         if (CATEGORIES.containsKey(buttonText)){
-            selectedCategory = CATEGORIES.get(buttonText);
+            selectedCategory = CATEGORIES.get(buttonText).Words;
         } else {
-            Collection<String[]> allCategories = CATEGORIES.values();
+            Collection<Category> allCategories = CATEGORIES.values();
             Random rand = new Random();
-            selectedCategory = (String[])allCategories.toArray()[rand.nextInt(allCategories.size())];
+            selectedCategory = ((Category)allCategories.toArray()[rand.nextInt(allCategories.size())]).Words;
         }
         Intent intent = new Intent(this, CoopGame.class);
         shuffleArray(selectedCategory);
@@ -58,15 +58,21 @@ public class CategoryMenu extends AppCompatActivity {
     }
 
     static {
-        String[] potatoes = {
+
+        Category potatoes = new Category();
+        potatoes.Name = "Potato";
+        String[] potatoWords = {
             "Russet",
                 "Potato",
                 "Baked",
                 "Mashed"
         };
-        CATEGORIES.put("Potato", potatoes);
+        potatoes.Words = potatoWords;
+        CATEGORIES.put(potatoes.Name, potatoes);
 
-        String[] cartoons = {
+        Category cartoons = new Category();
+        cartoons.Name = "Cartoons";
+        String[] cartoonWords = {
           "Looney Tunes",
           "The Simpsons",
           "Tom and Jerry",
@@ -77,7 +83,8 @@ public class CategoryMenu extends AppCompatActivity {
                 "Teen Titans",
                 "Rugrats"
         };
+        cartoons.Words = cartoonWords;
 
-        CATEGORIES.put("Cartoons", cartoons);
+        CATEGORIES.put(cartoons.Name, cartoons);
     }
 }
